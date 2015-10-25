@@ -1,0 +1,31 @@
+
+<div ng-controller="WorldbuilderCtrl">
+
+  <div class="menu">
+    <div class="logo">Worldbuilder</div>
+    <button class="toolbox-sphere" ng-click="createGeometry('sphere')"></button>
+    <button class="toolbox-cube" ng-click="createGeometry('cube')"></button>
+    <button class="toolbox-cylinder" ng-click="createGeometry('cylinder')"></button>
+    <button class="toolbox-cone" ng-click="createGeometry('cone')"></button>
+    <button class="toolbox-plane" ng-click="createGeometry('plane')"></button>
+    <button class="toolbox-torus" ng-click="createGeometry('torus')"></button>
+  </div>
+
+  <!--
+  <ul>
+    <li ng-repeat="object in objects">
+      {{object.name}}
+      <p>{{object.description}}</p>
+      <button ng-click="remove(object)">X</button>
+    </li>
+  </ul>
+  <form>
+    <label>Name</label>
+    <input ng-model="newObject.name">
+    <label>Description</label>
+    <input ng-model="newObject.description">
+    <button ng-click="objects.save(newObject); newObject={};">Add</button>
+    <button ng-click="removeAll()">Remove All</button>
+  </form>
+  -->
+</div>

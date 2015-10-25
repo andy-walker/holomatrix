@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300");
+
+* {
+    margin:0;
+    padding:0;
+}
+
+body {
+    font-family:"Open Sans", sans-serif;
+    background:#7c7c7c;
+}
+
+.menu {
+    background:#444;
+    height:35px;
+    padding:2px 0;
+}
+
+.logo {
+    float:left;
+    font-size:18px;
+    line-height:18px;
+    font-weight:300;
+    text-transform: uppercase;
+    color:white;
+    padding:0 25px 0 10px;
+    margin-top:8px;
+}
+
+.menu button {
+    border-radius:3px;
+    border:1px solid #444;
+    background:url('/images/toolbox.png') top left no-repeat #444;
+    background-position:-3px -1px;
+    height:35px;
+    width:35px;
+    transition: all 0.35s;
+    cursor:pointer;
+}
+
+.menu button:hover {
+    border:1px solid #9cc;
+    box-shadow: inset 0 0 3px #9cc;
+}
+
+.menu .toolbox-cube {
+    background-position:-38px -1px;
+}
+
+.menu .toolbox-cylinder {
+    background-position:-73px -1px;
+}
+
+.menu .toolbox-cone {
+    background-position:-107px -1px;
+}
+
+.menu .toolbox-plane {
+    background-position:-140px -2px;
+}
+
+.menu .toolbox-torus {
+    background-position:-177px -3px;
+}
