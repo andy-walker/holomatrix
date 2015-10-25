@@ -8,6 +8,7 @@
 body {
     font-family:"Open Sans", sans-serif;
     background:#7c7c7c;
+    color:white;
 }
 
 .menu {
@@ -22,7 +23,6 @@ body {
     line-height:18px;
     font-weight:300;
     text-transform: uppercase;
-    color:white;
     padding:0 25px 0 10px;
     margin-top:8px;
 }
@@ -61,4 +61,76 @@ body {
 
 .menu .toolbox-torus {
     background-position:-177px -3px;
+}
+
+.sidebar {
+    position:absolute;
+    z-index:100;
+    width:250px;
+    height:600px;
+    background:rgba(0, 0, 0, 0.8);
+    right:0;
+    color:#aec2e0;
+}
+
+.sidebar-section {
+    padding:8px;
+    margin-bottom:9px;
+}
+
+.sidebar-section h3 {
+    text-transform: uppercase;
+    font-weight:300;
+    font-size:0.9em;
+    padding:0;
+    margin:0;
+    line-height:31px;
+}
+
+.property {
+    padding:2px 0;
+    clear:both;
+}
+
+.sidebar .property-label {
+    float:left;
+    font-size:0.85em;
+}
+
+.sidebar .property-value {
+    float:right;
+    width:25px;
+    margin-left:15px;
+    font-size:0.75em;
+    font-weight:300;
+}
+
+.sidebar .property-controls {
+    float:right;
+    width:170px;
+}
+
+.sidebar .property-controls .slider-track {
+    height:5px;
+    background:none;
+    border:1px solid #0ff;
+}
+
+.sidebar .property-controls .slider-selection {
+    background:none;
+}
+
+.sidebar .property-controls .tooltip-inner {
+    display:none;
+}
+
+.sidebar .property-controls .slider-handle {
+    width:6px;
+    height:15px;
+    background-image:none;
+    background:#0ff;
+    margin-left: -3px;
+    margin-top: -5px;
+    border-radius:2px;
+
 }

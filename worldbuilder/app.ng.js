@@ -5,11 +5,63 @@ Objects = new Mongo.Collection("objects");
 
 if (Meteor.isClient) {
 
-    angular.module('worldbuilder', ['angular-meteor']);
+    angular.module('worldbuilder', ['angular-meteor', 'ui.bootstrap-slider']);
 
     angular.module('worldbuilder').controller('WorldbuilderCtrl', function ($scope, $meteor) {
 
         $scope.objects = $meteor.collection(Objects);
+
+        $scope.position = {
+            x: 0,
+            y: 0,
+            z: 0
+        };
+
+        $scope.rotation = {
+            x: 0,
+            y: 0,
+            z: 0
+        };
+
+        $scope.scale = {
+            x: 1,
+            y: 1,
+            z: 1
+        };
+
+        /**
+         * Convert degrees to radians
+         */
+        $scope.deg2rad = function(degree) { 
+            return degree*(Math.PI/180); 
+        };
+
+        $scope.updatePosition = function() {
+
+            cube.position.x = $scope.position.x * 100;
+            cube.position.y = $scope.position.y * 100;
+            cube.position.z = $scope.position.z * 100;
+
+            manipulator.position = cube.position;
+            render();
+        
+        };
+
+        $scope.updateRotation = function() {
+
+            cube.rotation.x = $scope.deg2rad($scope.rotation.x);
+            cube.rotation.y = $scope.deg2rad($scope.rotation.y);
+            cube.rotation.z = $scope.deg2rad($scope.rotation.z);
+            render();
+        
+        };
+
+        $scope.updateScale = function() {
+
+            cube.scale = $scope.scale;
+            render();
+        
+        };
 
         $scope.remove = function(object) {
             $scope.objects.remove(object);
@@ -35,7 +87,7 @@ camera.position.z = 500;
 
 //camera.lookAt( new THREE.Vector3() );
 
-var renderer = new THREE.WebGLRenderer({antialias:true, clearAlpha: 1, clearColor: 0x7c7c7c}); 
+var renderer = new THREE.WebGLRenderer({antialias:true, clearAlpha: 1, clearColor: 0x000000}); 
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -56,7 +108,7 @@ var material = new THREE.MeshLambertMaterial({
 
 var geometry = new THREE.CubeGeometry(100, 100, 100);
 
-var cube     = new THREE.Mesh( geometry, material );
+cube = new THREE.Mesh( geometry, material );
 
 
 
@@ -70,7 +122,7 @@ var grid = new THREE.Grid();
 scene.add(grid);
 
 // Axis
-var manipulator = new THREE.ManipulatorTool();
+manipulator = new THREE.ManipulatorTool();
 scene.add(manipulator);
 
 scene.add(directionalLight);
