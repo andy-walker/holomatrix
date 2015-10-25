@@ -40,6 +40,13 @@ var renderer = new THREE.WebGLRenderer({antialias:true, clearAlpha: 1, clearColo
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+var stats = new Stats();
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.bottom = '2px';
+stats.domElement.style.left = '2px';
+stats.domElement.style.zIndex = 100;
+document.body.appendChild( stats.domElement );
+
 var material = new THREE.MeshLambertMaterial({ 
     color:   0x999999,
     shading: THREE.SmoothShading,
@@ -51,10 +58,7 @@ var geometry = new THREE.CubeGeometry(100, 100, 100);
 
 var cube     = new THREE.Mesh( geometry, material );
 
-/*
-var geometry = new THREE.PlaneGeometry(5, 5, 5); 
-var plane = new THREE.Mesh(geometry, material);
-*/
+
 
 var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5);
 directionalLight.position.set(5, 10, 10); 
@@ -73,23 +77,20 @@ scene.add(directionalLight);
 scene.add(ambientLight);
 scene.add(cube);
 
-var render = function() {
-    requestAnimationFrame(render);
-    //plane.rotation.x += 0.01;
-    //plane.rotation.y += 0.01;
-    renderer.render(scene, camera); 
-};
+function animate() {
 
-var animate = function() {
+    requestAnimationFrame( animate );
 
-    requestAnimationFrame(animate);
+    render();
     controls.update();
+    stats.update();
 
-};
+}
 
-//controls = new THREE.OrbitControls(camera);
-//controls.damping = 0.2;
-//controls.addEventListener('change', render);
+function render() {
+    renderer.render( scene, camera );
+}
+
 
 var controls = new THREE.TrackballControls( camera, renderer.domElement );
 controls.rotateSpeed = 2.0;
@@ -106,7 +107,7 @@ controls.keys = [ 65, 83, 68 ]; // [ rotateKey, zoomKey, panKey ]
 controls.addEventListener('change', render);
 
 animate();
-render();
+//render();
     });
 
 }
