@@ -1,0 +1,95 @@
+
+<div ng-controller="WorldbuilderCtrl">
+
+  <div class="menu">
+    <div class="logo">Worldbuilder</div>
+    <button class="toolbox-sphere" ng-click="addPrimitive('Sphere')"></button>
+    <button class="toolbox-cube" ng-click="addPrimitive('Cube')"></button>
+    <button class="toolbox-cylinder" ng-click="addPrimitive('Cylinder')"></button>
+    <button class="toolbox-cone" ng-click="addPrimitive('Cone')"></button>
+    <button class="toolbox-plane" ng-click="addPrimitive('Plane')"></button>
+    <button class="toolbox-torus" ng-click="addPrimitive('Torus')"></button>
+  </div>
+
+  <div class="sidebar">
+    <div ng-show="selectedObject">
+      <h3 class="selected-object">{{selectedObject.name}}</h3>
+      <div class="sidebar-section">
+        <h3>Position</h3>
+        <div class="property">
+          <div class="property-label">X</div>
+          <div class="property-value">{{objectProperties.position.x}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.position.x" min="-10" step="0.1" max="10" value="0" ng-change="updatePosition()"></slider>
+          </div>
+        </div>
+        <div class="property">
+          <div class="property-label">Y</div>
+          <div class="property-value">{{objectProperties.position.y}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.position.y" min="-10" step="0.1" max="10" value="0" ng-change="updatePosition()"></slider>
+          </div>
+        </div>
+        <div class="property">
+          <div class="property-label">Z</div>
+          <div class="property-value">{{objectProperties.position.z}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.position.z" min="-10" step="0.1" max="10" value="0" ng-change="updatePosition()"></slider>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Rotation</h3>
+        <div class="property">
+          <div class="property-label">X</div>
+          <div class="property-value">{{objectProperties.rotation.x}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.rotation.x" min="0" step="1" max="360" value="0" ng-change="updateRotation()"></slider>
+          </div>
+        </div>
+        <div class="property">
+          <div class="property-label">Y</div>
+          <div class="property-value">{{objectProperties.rotation.y}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.rotation.y" min="0" step="1" max="360" value="0" ng-change="updateRotation()"></slider>
+          </div>
+        </div>
+        <div class="property">
+          <div class="property-label">Z</div>
+          <div class="property-value">{{objectProperties.rotation.z}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.rotation.z" min="0" step="1" max="360" value="0" ng-change="updateRotation()"></slider>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Scale</h3>
+        <div class="property">
+          <div class="property-label">X</div>
+          <div class="property-value">{{objectProperties.scale.x}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.scale.x" min="0" step="0.1" max="5" value="1" ng-change="updateScale()"></slider>
+          </div>
+        </div>
+        <div class="property">
+          <div class="property-label">Y</div>
+          <div class="property-value">{{objectProperties.scale.y}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.scale.y" min="0" step="0.1" max="5" value="1" ng-change="updateScale()"></slider>
+          </div>
+        </div>
+        <div class="property">
+          <div class="property-label">Z</div>
+          <div class="property-value">{{objectProperties.scale.z}}</div>
+          <div class="property-controls">
+            <slider ng-model="objectProperties.scale.z" min="0" step="0.1" max="5" value="1" ng-change="updateScale()"></slider>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
