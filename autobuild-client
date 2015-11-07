@@ -1,0 +1,3 @@
+#!/bin/bash
+tsc src/client/*.ts src/client/**/*.ts --outDir client/js --module amd --watch
+

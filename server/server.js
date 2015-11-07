@@ -1,51 +1,10 @@
-
-
-SceneObjects = new Mongo.Collection("SceneObjects");
-
-Meteor.publish("SceneUpdates", function(filter) {
-    
-    var self = this;
-
-    var subHandle = SceneObjects.find(filter || {}).observeChanges({
-      added: function (id, fields) {
-        console.log('server: self added');
-        self.added("testdata", id, fields);
-      },
-      changed: function(id, fields) {
-        console.log('server: self updated');
-        self.changed("testdata", id, fields);
-      },
-      removed: function (id) {
-        console.log('server: self removed');
-        self.removed("testdata", id);
-      }
-    });
-
-    self.ready();
-
-    self.onStop(function () {
-      subHandle.stop();
-    });
-
+/// <reference path='../../typings/node/node.d.ts' />
+/// <reference path='../../typings/express/express.d.ts' />
+var express = require('express');
+var app = express();
+var webroot = __dirname + '/../client';
+app.get('/', function (req, res) {
+    res.sendFile('index.html', { root: webroot });
 });
-
-Meteor.startup(function() {
-  /*
-  if (Objects.find().count() === 0) {
-
-    var objects = [
-      {'name': 'Item 1',
-        'description': 'This is item 1.'},
-      {'name': 'Item 2',
-        'description': 'This is item 2.'},
-      {'name': 'Item 3',
-        'description': 'This is item 3.'}
-    ];
-
-    for (var i = 0; i < objects.length; i++)
-      Objects.insert(objects[i]);
-    
-  }
-  */  
-
-});
+app.use(express.static(webroot));
+app.listen(3000);

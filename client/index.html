@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+
+<head>
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body ng-app="holomatrix">
+  
+  <section ng-controller="HoloUI">
+    <div class="menu">
+      <div class="logo">Holomatrix</div>
+      <button class="toolbox-sphere" ng-click="addPrimitive('Sphere')"></button>
+      <button class="toolbox-cube" ng-click="addPrimitive('Cube')"></button>
+      <button class="toolbox-cylinder" ng-click="addPrimitive('Cylinder')"></button>
+      <button class="toolbox-cone" ng-click="addPrimitive('Cone')"></button>
+      <button class="toolbox-plane" ng-click="addPrimitive('Plane')"></button>
+      <button class="toolbox-torus" ng-click="addPrimitive('Torus')"></button>
+    </div>
+  </section>
+    
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/js/lib/angular-bootstrap-slider.js"></script>
+  
+  <script src="/js/components/api.js"></script>
+  <script src="/js/components/execute.js"></script>
+  
+  <script src="/js/app.js"></script>
+  <script src="/js/controllers/holo-ui.js"></script>
+
+</body>
+</html>

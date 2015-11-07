@@ -1,0 +1,3 @@
+#!/bin/bash
+tsc src/server/*.ts --outDir server --module commonjs --watch
+
