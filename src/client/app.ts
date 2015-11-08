@@ -1,20 +1,41 @@
 /// <reference path='_all.ts' />
 
 interface Holomatrix {
-    app:     Object,
-    api:     Object,
-    execute: Function
+    api:      Object,
+    data:     any,
+    execute:  Function,
+    scope:    Object,
+    ui:       Object,
+    utils:    Object,
+    viewport: Object
 };
 
+// Main application object
 var holomatrix:Holomatrix = {
+        
+    api: new APIComponent(),
     
-    app: angular.module('holomatrix', [
-        'ui.bootstrap-slider'
-    ]),
+    data: {
+        sceneHelpers: {
+            manipulator: null
+        },
+        sceneObjects: {}
+    },
     
-    api:     new APIComponent(),
-    execute: ExecuteFunction
-    
+    execute:  ExecuteFunction,
+    scope:    {},
+    ui:       {},
+    utils:    new UtilsComponent(), 
+    viewport: new ViewportComponent(),
+
 };
 
-holomatrix.execute('test command');
+// Initialize 3D viewport
+holomatrix.viewport.initialize();
+
+// Initialize UI
+holomatrix.ui = angular.module('holomatrix', [
+    'ui.bootstrap-slider', 'ui.utils.masks'
+]);
+
+// holomatrix.execute("addPrimitive('cube')");

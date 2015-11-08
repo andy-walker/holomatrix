@@ -1,10 +1,8 @@
 var APIComponent = (function () {
     function APIComponent() {
+        this.polygon = new PolygonAPI();
         console.log('API component initialized');
     }
-    APIComponent.prototype.addPrimitive = function (primitiveType) {
-        console.log('adding primitive');
-    };
     return APIComponent;
 })();
 ;

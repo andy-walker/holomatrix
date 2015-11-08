@@ -26,6 +26,7 @@
     "three.js": "threejs#*",
     "angular-route": "~1.4.7",
     "angular-bootstrap-slider": "~0.1.18",
-    "requirejs": "~2.1.20"
+    "requirejs": "~2.1.20",
+    "angular-input-masks": "~2.1.0"
   }
 }

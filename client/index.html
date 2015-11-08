@@ -9,26 +9,34 @@
 <body ng-app="holomatrix">
   
   <section ng-controller="HoloUI">
-    <div class="menu">
-      <div class="logo">Holomatrix</div>
-      <button class="toolbox-sphere" ng-click="addPrimitive('Sphere')"></button>
-      <button class="toolbox-cube" ng-click="addPrimitive('Cube')"></button>
-      <button class="toolbox-cylinder" ng-click="addPrimitive('Cylinder')"></button>
-      <button class="toolbox-cone" ng-click="addPrimitive('Cone')"></button>
-      <button class="toolbox-plane" ng-click="addPrimitive('Plane')"></button>
-      <button class="toolbox-torus" ng-click="addPrimitive('Torus')"></button>
-    </div>
+    <div class="menu" ng-include="'views/menu.html'"></div>
+    <div class="sidebar" ng-include="'views/properties.html'"></div>
   </section>
-    
+  
+  <!-- misc libraries -->
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  
+  <!-- angular -->
   <script src="/bower_components/angular/angular.js"></script>
   <script src="/bower_components/angular-route/angular-route.js"></script>
   <script src="/js/lib/angular-bootstrap-slider.js"></script>
-  
+  <script src="/bower_components/angular-input-masks/angular-input-masks-standalone.js"></script>
+ 
+  <!-- three -->
+  <script src="/bower_components/three.js/build/three.js"></script>
+  <script src="/bower_components/three.js/examples/js/controls/TrackballControls.js"></script>
+  <script src="/bower_components/three.js/examples/js/libs/stats.min.js"></script>
+  <script src="/js/lib/ManipulatorTool.js"></script>
+   
+  <!-- internal components -->
   <script src="/js/components/api.js"></script>
+  <script src="/js/components/api/polygon.js"></script>
   <script src="/js/components/execute.js"></script>
-  
+  <script src="/js/components/viewport.js"></script>
+  <script src="/js/components/utils.js"></script>
+   
+  <!-- app -->
   <script src="/js/app.js"></script>
   <script src="/js/controllers/holo-ui.js"></script>
 

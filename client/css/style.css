@@ -66,10 +66,11 @@ body {
 .sidebar {
     position:absolute;
     z-index:100;
-    width:250px;
+    width:265px;
     height:600px;
     background:rgba(0, 0, 0, 0.8);
     right:0;
+    padding:10px;
     color:#aec2e0;
 }
 
@@ -97,9 +98,50 @@ body {
     clear:both;
 }
 
+.sidebar .panel {
+    margin-top:10px;
+    background:none;
+    border-radius:0;
+}
+
+.sidebar .panel-default {
+    border:none;
+    border-bottom:1px solid #333; 
+}
+
+.sidebar .panel-heading {
+    background-color:rgba(50, 50, 50, 0.5);
+    padding: 6px 8px;
+    border-bottom: 1px solid #333;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+}
+
+.sidebar .panel-heading a {
+    color:#aec2e0;
+}
+
+.sidebar .panel-heading a:hover, .sidebar .panel-heading a:focus {
+    text-decoration:none;
+}
+
+.sidebar .panel-properties {
+    padding:6px 0 9px;
+}
+
+.sidebar .panel-title {
+    font-size:10px;
+    text-transform:uppercase;
+    color:#fff;
+}
+
 .sidebar .property-label {
-    float:left;
-    font-size:0.85em;
+    display:inline-block;
+    font-size:0.75em;
+    text-align:right;
+    width:66px;
+    height:20px;
+    padding-top:3px;
 }
 
 .sidebar .property-value {
@@ -138,4 +180,30 @@ body {
     margin-top: -5px;
     border-radius:2px;
 
+}
+
+.sidebar input.form-control {
+    background: rgba(20, 20, 20, 0.5);
+    border: 1px solid #444;
+    color:#ccc;
+}
+
+.sidebar input.object-name {
+    border:none;
+    background:none;
+    font-size:25px;
+    font-weight:300;
+    height: 36px;
+    padding: 0px 6px;
+    margin-bottom:0;
+    color:#aec2e0;
+}
+
+.vector3-tiny {
+    font-size: 0.75em;
+    border-radius: 1px;
+    display: inline-block;
+    padding: 2px 5px;
+    width: 30%;
+    height: 20px;
 }

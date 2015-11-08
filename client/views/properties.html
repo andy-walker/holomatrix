@@ -1,0 +1,43 @@
+<div ng-show="selectedObject.name">
+  <input class="form-control object-name" type="text" ng-model="selectedObject.name" ng-change="updateName()" />
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Transform
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-properties">
+        <div class="property">
+          <div class="property-label">Translate</div>
+          <div class="property-controls">
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.position.x" ng-change="updatePosition()" />
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.position.y" ng-change="updatePosition()" />
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.position.z" ng-change="updatePosition()" />
+          </div>
+        </div>
+        <div class="property">
+          <div class="property-label">Rotate</div>
+          <div class="property-controls">
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.rotation.x" ng-change="updateRotation()" />
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.rotation.y" ng-change="updateRotation()" />
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.rotation.z" ng-change="updateRotation()" />
+          </div>
+        </div>
+        <div class="property">
+          <div class="property-label">Scale</div>
+          <div class="property-controls">
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.scale.x" ng-change="updateScale()" />
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.scale.y" ng-change="updateScale()" />
+            <input class="form-control vector3-tiny" type="text" ng-model="selectedObject.scale.z" ng-change="updateScale()" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>      
+        
+
+
