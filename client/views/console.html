@@ -1,0 +1,11 @@
+<div class="panel-heading" role="tab" id="headingOne">
+  <h4 class="panel-title">
+    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseConsole" aria-expanded="true" aria-controls="collapseOne">
+      Console
+    </a>
+  </h4>
+</div>
+<div id="collapseConsole" class="panel-collapse collapse in" ng-controller="ConsoleController" role="tabpanel" aria-labelledby="headingOne">
+  <ui-codemirror ui-codemirror-opts="consoleViewOptions" class="codemirror-view" ng-model="commandHistory"></ui-codemirror>
+  <ui-codemirror ui-codemirror-opts="consoleEditorOptions" class="codemirror-edit"></ui-codemirror>
+</div>

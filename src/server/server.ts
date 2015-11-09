@@ -1,11 +1,12 @@
 /// <reference path='../../typings/node/node.d.ts' />
 /// <reference path='../../typings/express/express.d.ts' />
+/// <reference path='../../typings/socket.io/socket.io.d.ts' />
 
-import http    = require("http");
-import url     = require("url");
-import express = require('express');
+var express = require('express');
+var app     = express();
+var server  = require('http').Server(app);
+var io      = require('socket.io')(server);
 
-var app            = express();
 var webroot:string = __dirname + '/../client'; 
 
 app.get('/', function(req, res) {
@@ -13,4 +14,15 @@ app.get('/', function(req, res) {
 });
 
 app.use(express.static(webroot));
-app.listen(3000);
+
+io.on('connection', function(socket) {
+ 
+    console.log('client connected');
+
+    socket.on('disconnect', function() {
+        console.log('client disconnected');
+    });
+    
+}); 
+
+server.listen(3000);

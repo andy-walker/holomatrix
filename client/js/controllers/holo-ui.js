@@ -1,5 +1,5 @@
 angular.module('holomatrix').controller('HoloUI', function ($scope) {
-    holomatrix.scope = $scope;
+    holomatrix.scope.properties = $scope;
     $scope.selectedObject = {
         name: '',
         position: { x: 0, y: 0, z: 0 },
@@ -7,46 +7,15 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         scale: { x: 1, y: 1, z: 1 }
     };
     $scope.addPrimitive = function (primitiveType) {
-        var objectName = holomatrix.api.polygon.create({
+        var apiParams = {
             type: primitiveType,
             width: 1,
             height: 1,
             depth: 1
-        });
-        $scope.selectObject(objectName);
-        /*
-        var material = new THREE.MeshLambertMaterial({
-            color:   0x999999,
-            shading: THREE.SmoothShading,
-            side: THREE.DoubleSide
-        });
-    
-        var geometry   = new THREE[primitiveType + 'Geometry'](100, 100, 100);
-        var objectName = $scope.getUniqueName(primitiveType);
-    
-        $scope.sceneObjects[objectName] = new THREE.Mesh( geometry, material );
-    
-        scene.add($scope.sceneObjects[objectName]);
-    
-        if (!$scope.manipulator) {
-            $scope.manipulator = new THREE.ManipulatorTool();
-            scene.add($scope.manipulator);
-        } else {
-            $scope.manipulator.position = $scope.sceneObjects[objectName].position;
-        }
-    
-        $scope.selectedObject = $scope.sceneObjects[objectName];
-        $scope.selectedObject.name     = objectName;
-        $scope.selectedObject.position = { x: 0, y: 0, z: 0 };
-        $scope.selectedObject.rotation = { x: 0, y: 0, z: 0 };
-        $scope.selectedObject.scale    = { x: 1, y: 1, z: 1 };
-    
-        $scope.objectProperties = {
-            position: { x: 0, y: 0, z: 0 },
-            rotation: { x: 0, y: 0, z: 0 },
-            scale:    { x: 1, y: 1, z: 1 },
         };
-        */
+        var objectName = holomatrix.api.polygon.create(apiParams);
+        holomatrix.scope.console.addToCommandHistory('polygon.create', apiParams, objectName);
+        $scope.selectObject(objectName);
     };
     $scope.getObjectProperties = function (objectName) {
         $scope.selectedObject.name = objectName;

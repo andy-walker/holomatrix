@@ -9,3 +9,5 @@
 /// <reference path="es6-shim/es6-shim.d.ts" />
 /// <reference path="requirejs/require.d.ts" />
 /// <reference path="threejs/three.d.ts" />
+/// <reference path="socket.io/socket.io.d.ts" />
+/// <reference path="codemirror/codemirror.d.ts" />

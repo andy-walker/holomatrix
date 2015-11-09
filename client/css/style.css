@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300");
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700);
 
 * {
     margin:0;
@@ -9,6 +10,83 @@ body {
     font-family:"Open Sans", sans-serif;
     background:#7c7c7c;
     color:white;
+}
+
+.codemirror-view .CodeMirror {
+    height:450px;
+}
+
+.codemirror-edit .CodeMirror {
+    height:150px;
+}
+
+.CodeMirror, .cm-s-night.CodeMirror {
+    background:none;
+    color:white;
+    font-family:"Source Code Pro", Courier New, Courier, monospace;
+    font-weight:400;
+    font-size:12px;
+}
+
+#collapseConsole {
+    padding:6px
+}
+
+.cm-s-night .CodeMirror-gutters {
+    background:rgba(20, 20, 20, 0.5);
+}
+
+.cm-s-night span.cm-string {
+    color:#0ff;
+}
+
+.cm-s-night span.cm-atom {
+    color:white;
+}
+
+.cm-s-night span.cm-number, .cm-s-night span.cm-attribute {
+    color:#0ff;
+}
+
+.cm-s-night .CodeMirror-linenumber {
+    color:#999;
+}
+
+.cm-s-night span.cm-comment {
+    color:#666;
+}
+
+.console {
+    position:absolute;
+    z-index:100;
+    width:400px;
+    left: 3px;
+    top: 42px;
+    color:#aec2e0;
+    background:rgba(0, 0, 0, 0.8);
+    border:none;
+}
+
+.console .panel-heading {
+    background-color:rgba(50, 50, 50, 0.5);
+    padding: 6px 8px;
+    border-bottom: 1px solid #333;
+    border-radius:0;
+}
+
+.console .panel-heading a {
+    color:#aec2e0;
+    text-decoration:none;
+}
+
+.console .panel-heading a:hover, .sidebar .panel-heading a:focus {
+    text-decoration:none;
+}
+
+.console .panel-title {
+    font-size:10px;
+    text-transform:uppercase;
+    color:#fff;
 }
 
 .menu {
@@ -113,8 +191,7 @@ body {
     background-color:rgba(50, 50, 50, 0.5);
     padding: 6px 8px;
     border-bottom: 1px solid #333;
-    border-top-left-radius: 1px;
-    border-top-right-radius: 1px;
+    border-radius:0;
 }
 
 .sidebar .panel-heading a {
