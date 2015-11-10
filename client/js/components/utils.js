@@ -17,5 +17,12 @@ var UtilsComponent = (function () {
             objectIndex++;
         return objectType + objectIndex;
     };
+    /**
+     * Convert radians to degrees
+     */
+    UtilsComponent.prototype.rad2deg = function (radians) {
+        return radians * 180 / Math.PI;
+    };
+    ;
     return UtilsComponent;
 })();

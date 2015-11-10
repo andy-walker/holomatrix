@@ -18,7 +18,8 @@ var holomatrix:Holomatrix = {
    
     data: {
         sceneHelpers: {
-            manipulator: null
+            manipulator: null,
+            selectionWireframe: null
         },
         sceneObjects: {}
     },

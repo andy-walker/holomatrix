@@ -14,6 +14,7 @@ var PolygonAPI = (function () {
         var geometry = new THREE[params.type + 'Geometry'](params.width, params.height, params.depth);
         var objectName = holomatrix.utils.getUniqueName(params.type);
         holomatrix.data.sceneObjects[objectName] = new THREE.Mesh(geometry, material);
+        holomatrix.data.sceneObjects[objectName].name = objectName;
         holomatrix.viewport.scene.add(holomatrix.data.sceneObjects[objectName]);
         return objectName;
     };

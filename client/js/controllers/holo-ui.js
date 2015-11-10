@@ -17,48 +17,86 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         holomatrix.scope.console.addToCommandHistory('polygon.create', apiParams, objectName);
         $scope.selectObject(objectName);
     };
+    /*
+    $scope.copyVector3 = function(srcObject:Object, destObject:Object) {
+        
+    };
+    */
+    /**
+     * Copy object properties to local models
+     */
     $scope.getObjectProperties = function (objectName) {
+        console.log('getObjectProperties for ' + objectName);
         $scope.selectedObject.name = objectName;
+        console.log('selectedObject.name = ' + $scope.selectedObject.name);
         $scope.selectedObject.position = holomatrix.data.sceneObjects[objectName].position;
-        $scope.selectedObject.rotation = holomatrix.data.sceneObjects[objectName].rotation;
+        $scope.selectedObject.rotation.x = holomatrix.data.sceneObjects[objectName].rotation.x;
+        $scope.selectedObject.rotation.y = holomatrix.data.sceneObjects[objectName].rotation.y;
+        $scope.selectedObject.rotation.z = holomatrix.data.sceneObjects[objectName].rotation.z;
         $scope.selectedObject.scale = holomatrix.data.sceneObjects[objectName].scale;
     };
-    $scope.selectObject = function (objectName) {
+    $scope.selectNone = function () {
+        var manipulator = holomatrix.data.sceneHelpers.manipulator;
+        holomatrix.viewport.scene.remove(manipulator);
+        delete manipulator;
+        $scope.selectedObject.name = '';
+        $scope.$apply();
+    };
+    $scope.selectObject = function (objectName, apply) {
+        $scope.setManipulator(objectName);
+        $scope.setSelectionWireframe(objectName);
+        $scope.getObjectProperties(objectName);
+        if (apply)
+            $scope.$apply();
+    };
+    /**
+     * Move manipulator to selected object position
+     */
+    $scope.setManipulator = function (objectName) {
         var sceneHelpers = holomatrix.data.sceneHelpers;
         var sceneObjects = holomatrix.data.sceneObjects;
-        // if manipulator uninitialized, add to object position
+        // if manipulator uninitialized, create and set to object position
         if (!sceneHelpers.manipulator) {
             sceneHelpers.manipulator = new THREE.ManipulatorTool();
             sceneHelpers.manipulator.scale.x = 0.01;
             sceneHelpers.manipulator.scale.y = 0.01;
             sceneHelpers.manipulator.scale.z = 0.01;
             holomatrix.viewport.scene.add(sceneHelpers.manipulator);
+            sceneHelpers.manipulator.position = sceneObjects[objectName].position;
         }
         else {
+            //sceneHelpers.manipulator.position = sceneObjects[objectName].position;
             sceneHelpers.manipulator.position.x = sceneObjects[objectName].position.x;
             sceneHelpers.manipulator.position.y = sceneObjects[objectName].position.y;
             sceneHelpers.manipulator.position.z = sceneObjects[objectName].position.z;
         }
-        $scope.getObjectProperties(objectName);
+    };
+    $scope.setSelectionWireframe = function (objectName) {
+        var sceneHelpers = holomatrix.data.sceneHelpers;
+        var sceneObjects = holomatrix.data.sceneObjects;
+        if (sceneHelpers.selectionWireframe)
+            holomatrix.viewport.scene.remove(sceneHelpers.selectionWireframe);
+        sceneHelpers.selectionWireframe = new THREE.EdgesHelper(sceneObjects[objectName], 0x6ff278);
+        sceneHelpers.selectionWireframe.material.linewidth = 1.5;
+        holomatrix.viewport.scene.add(sceneHelpers.selectionWireframe);
     };
     $scope.updatePosition = function () {
         var properties = $scope.selectedObject;
         var object = holomatrix.data.sceneObjects[properties.name];
         var manipulator = holomatrix.data.sceneHelpers.manipulator;
-        object.position.x = properties.position.x;
-        object.position.y = properties.position.y;
-        object.position.z = properties.position.z;
+        //object.position.x = properties.position.x;
+        //object.position.y = properties.position.y;
+        //object.position.z = properties.position.z;
         manipulator.position.x = properties.position.x;
         manipulator.position.y = properties.position.y;
         manipulator.position.z = properties.position.z;
-        //render();
     };
     $scope.updateRotation = function () {
-        var object = $scope.selectedObject;
-        object.rotation.x = $scope.deg2rad($scope.objectProperties.rotation.x);
-        object.rotation.y = $scope.deg2rad($scope.objectProperties.rotation.y);
-        object.rotation.z = $scope.deg2rad($scope.objectProperties.rotation.z);
-        //render();
+        var properties = $scope.selectedObject;
+        var object = holomatrix.data.sceneObjects[properties.name];
+        object.rotation.x = holomatrix.utils.deg2rad(properties.rotation.x);
+        object.rotation.y = holomatrix.utils.deg2rad(properties.rotation.y);
+        object.rotation.z = holomatrix.utils.deg2rad(properties.rotation.z);
     };
     $scope.updateScale = function () {
         var object = $scope.selectedObject;

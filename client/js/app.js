@@ -5,7 +5,8 @@ var holomatrix = {
     api: new APIComponent(),
     data: {
         sceneHelpers: {
-            manipulator: null
+            manipulator: null,
+            selectionWireframe: null
         },
         sceneObjects: {}
     },

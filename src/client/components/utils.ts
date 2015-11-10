@@ -6,7 +6,7 @@ class UtilsComponent {
     public deg2rad(degree:number):number { 
         return degree * (Math.PI / 180); 
     }
-    
+        
     /**
      * Generate a unique name for the specified geometry type
      */
@@ -17,5 +17,12 @@ class UtilsComponent {
             objectIndex++;
         return objectType + objectIndex;
     }
-    
+
+    /**
+     * Convert radians to degrees
+     */
+    public rad2deg(radians:number):number {
+        return radians * 180 / Math.PI;
+    };
+
 }

@@ -10,82 +10,17 @@ class ViewportComponent {
      constructor() {
          console.log('initializing viewport');
      }
-     /*
-     animate() {
-        
-        requestAnimationFrame( this.animate );
-
-        this.render();
-        this.controls.update();
-        stats.update();
-     
-     }
-     */
 
      public initialize() {
-        /*
-        var _radius = 500,
-            _height = window.innerHeight,
-            _width = window.innerWidth;
-
-        this.scene  = new THREE.Scene(); 
-        this.camera = new THREE.PerspectiveCamera( 60, _width / _height, 1, 10000 );
-        
-        this.camera.position.x = 500;
-        this.camera.position.y = 250;
-        this.camera.position.z = 500;
-
-        //camera.lookAt( new THREE.Vector3() );
-
-        this.renderer = new THREE.WebGLRenderer({antialias:true, clearAlpha: 1, clearColor: 0x000000}); 
-
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(this.renderer.domElement);
-
-        this.stats = new Stats();
-        this.stats.domElement.style.position = 'absolute';
-        this.stats.domElement.style.bottom   = '2px';
-        this.stats.domElement.style.left     = '2px';
-        this.stats.domElement.style.zIndex   = 100;
-        document.body.appendChild( this.stats.domElement );
-
-
-        var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5);
-        directionalLight.position.set(5, 10, 10); 
-
-        var ambientLight = new THREE.AmbientLight( 0x202020 ); // soft white light 
-
-
-        this.grid = new THREE.Grid();
-        this.scene.add(this.grid);
-
-        this.scene.add(directionalLight);
-        this.scene.add(ambientLight);
-        
-        this.controls = new THREE.TrackballControls( this.camera, this.renderer.domElement );
-        this.controls.rotateSpeed = 2.0;
-        this.controls.zoomSpeed = 0.1;
-        this.controls.panSpeed = 0.2;
-        this.controls.noZoom = false;
-        this.controls.noPan = false;
-        this.controls.staticMoving = false;
-        this.controls.dynamicDampingFactor = 0.3;
-        this.controls.minDistance = 0;
-        this.controls.maxDistance = _radius * 100;
-        this.controls.keys = [ 65, 83, 68 ]; // [ rotateKey, zoomKey, panKey ]
-
-        this.controls.addEventListener('change', this.render);
-
-        this.animate();
-        */
-        
+                     
         var _radius = 500,
             _height = window.innerHeight,
             _width = window.innerWidth;
 
         this.scene = new THREE.Scene(); 
 
-        var camera = new THREE.PerspectiveCamera( 60, _width / _height, 0.1, 10000 );
+        var camera = this.camera;
+        camera = new THREE.PerspectiveCamera( 60, _width / _height, 0.1, 10000 );
         camera.position.x = 5;
         camera.position.y = 2.5;
         camera.position.z = 5;
@@ -145,14 +80,30 @@ class ViewportComponent {
         controls.keys = [ 65, 83, 68 ]; // [ rotateKey, zoomKey, panKey ]
 
         controls.addEventListener('change', render);
+        
+        function onDocumentMouseDown(event) {
 
+            var vector = new THREE.Vector3(( event.clientX / window.innerWidth ) * 2 - 1, -( event.clientY / window.innerHeight ) * 2 + 1, 0.5);
+            vector = vector.unproject(camera);
+
+            var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+            console.log(_.values(holomatrix.data.sceneObjects));
+            var intersects = raycaster.intersectObjects(_.values(holomatrix.data.sceneObjects));
+            console.log(intersects);
+            if (intersects.length > 0) {
+
+                console.log(intersects[0].object.name);
+                holomatrix.scope.properties.selectObject(intersects[0].object.name, true);
+                //intersects[0].object.material.transparent = true;
+                //intersects[0].object.material.opacity = 0.1;
+            } else {
+                //holomatrix.scope.properties.selectNone();
+            }
+        }
+    
+        document.getElementsByTagName('canvas')[0].addEventListener('mousedown', onDocumentMouseDown, false);
         animate();
                 
      }
-     /*
-     render() {
-        this.renderer.render(this.scene, this.camera);
-     }
-     */
-   
+        
 }
