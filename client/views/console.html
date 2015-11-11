@@ -6,6 +6,9 @@
   </h4>
 </div>
 <div id="collapseConsole" class="panel-collapse collapse in" ng-controller="ConsoleController" role="tabpanel" aria-labelledby="headingOne">
-  <ui-codemirror ui-codemirror-opts="consoleViewOptions" class="codemirror-view" ng-model="commandHistory"></ui-codemirror>
-  <ui-codemirror ui-codemirror-opts="consoleEditorOptions" class="codemirror-edit"></ui-codemirror>
+  <div ui-codemirror="{onLoad:commandHistoryPanelLoaded}" ui-codemirror-opts="consoleViewOptions" class="codemirror-view" ng-model="commandHistory"></div>
+  <div class="codemirror-edit-toolbar">
+    <button class="button-sm glyphicon glyphicon-play btn btn-default btn-xs btn-play" ng-click="runScript()"><span class="btn-label">Run</span></button>
+  </div>
+  <ui-codemirror ui-codemirror-opts="consoleEditorOptions" class="codemirror-edit" ng-model="script"></ui-codemirror>
 </div>

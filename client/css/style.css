@@ -12,8 +12,53 @@ body {
     color:white;
 }
 
+.btn {
+    border:none;
+}
+
+.btn-xs {
+    padding: 2px 5px;
+    font-size: 10px;
+    line-height: 1.4;
+    border-radius: 2px;
+}
+
+.btn-default {
+    background:#444;;
+    color:white;
+}
+
+.btn-default:hover, .btn-default:active, .btn-default:focus {
+    background:#555 !important;
+    color:white !important;
+    box-shadow:none;
+}
+
+.btn-play {
+    color:#60FC7D;
+}
+
+.btn-label {
+    text-transform: uppercase;
+    color: white;
+    font-size: 9px;
+    margin-top: -4px;
+    padding-left: 4px;
+    /* float: right; */
+    display: inline-block;
+    line-height: 17px;
+    font-weight: 600;
+}
+
 .codemirror-view .CodeMirror {
-    height:450px;
+    height:425px;
+}
+
+.codemirror-edit-toolbar {
+    height:30px;
+    background:rgba(20, 20, 20, 0.5);
+    padding:3px;
+    text-align:right;
 }
 
 .codemirror-edit .CodeMirror {
