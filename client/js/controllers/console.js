@@ -43,9 +43,9 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
         $scope.commandHistory += "// " + message + "\n";
     };
     $scope.runScript = function () {
-        console.log('running script');
-        $scope.addToCommandHistory($scope.script);
-        eval($scope.script.replace('console.log', 'holomatrix.scope.console.logMessage'));
+        holomatrix.execute($scope.script, null, {
+            selectCreatedObjects: true
+        });
         $scope.script = "";
     };
 });

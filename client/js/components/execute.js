@@ -1,9 +1,15 @@
-var ExecuteFunction = function (command, params) {
+var ExecuteFunction = function (command, params, apiOpts) {
     if (typeof command == 'string') {
         if (params)
             command += '(' + JSON.stringify(params) + ')';
-        console.log(command);
-        return eval('holomatrix.api.' + command);
+        holomatrix.scope.console.addToCommandHistory(command);
+        command = command.replace('console.log', 'holomatrix.scope.console.logMessage');
+        if (apiOpts)
+            holomatrix.api.setOptions(apiOpts);
+        var returnValue = eval(command);
+        if (apiOpts)
+            holomatrix.api.unsetOptions();
+        return returnValue;
     }
     else {
         var apiCommand = command.toString();

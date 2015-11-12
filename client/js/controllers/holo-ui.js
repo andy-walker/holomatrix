@@ -13,15 +13,13 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
             height: 1,
             depth: 1
         };
-        var objectName = holomatrix.api.polygon.create(apiParams);
-        holomatrix.scope.console.addToCommandHistory('polygon.create', apiParams, objectName);
-        $scope.selectObject(objectName);
+        //var objectName:string = holomatrix.api.polygon.create(apiParams);
+        //holomatrix.scope.console.addToCommandHistory('polygon.create', apiParams, objectName);
+        //$scope.selectObject(objectName);
+        holomatrix.execute('polygon.create', apiParams, {
+            selectCreatedObjects: true
+        });
     };
-    /*
-    $scope.copyVector3 = function(srcObject:Object, destObject:Object) {
-        
-    };
-    */
     /**
      * Copy object properties to local models
      */
@@ -42,12 +40,26 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         $scope.selectedObject.name = '';
         $scope.$apply();
     };
-    $scope.selectObject = function (objectName, apply) {
+    /**
+     * Prevent '$apply already in progress' error with this for now, although there's prb a better way round this
+     * https://coderwall.com/p/ngisma/safe-apply-in-angular-js
+     */
+    $scope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof (fn) === 'function')) {
+                fn();
+            }
+        }
+        else {
+            this.$apply(fn);
+        }
+    };
+    $scope.selectObject = function (objectName) {
         $scope.setManipulator(objectName);
         $scope.setSelectionWireframe(objectName);
         $scope.getObjectProperties(objectName);
-        if (apply)
-            $scope.$apply();
+        $scope.safeApply();
     };
     /**
      * Move manipulator to selected object position
