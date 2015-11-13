@@ -5,6 +5,30 @@ var APIComponent = (function () {
         window.polygon = this.polygon;
         window.select = this.select;
     }
+    APIComponent.prototype.execute = function (command, params, apiOpts) {
+        var api = holomatrix.api;
+        if (typeof command == 'string') {
+            var originalCommand = command;
+            if (params)
+                command += '(' + JSON.stringify(params) + ')';
+            command = command.replace('console.log', 'holomatrix.scope.console.logMessage');
+            if (apiOpts)
+                api.setOptions(apiOpts);
+            var returnValue = eval(command);
+            console.log('add to command history - params: ' + params);
+            holomatrix.scope.console.addToCommandHistory(originalCommand, params, returnValue);
+            if (apiOpts)
+                api.unsetOptions();
+            return returnValue;
+        }
+        else {
+            var apiCommand = command.toString();
+            apiCommand += params ? '(' + JSON.stringify(params) + ')' : '()';
+            apiCommand += ';';
+            console.log(apiCommand);
+            return command(params);
+        }
+    };
     APIComponent.prototype.select = function (objectName) {
         // do this for now to get working, the logic for creating the manipulator should be moved
         // outside the angular controller though (todo)

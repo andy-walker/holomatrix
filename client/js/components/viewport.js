@@ -58,7 +58,11 @@ var ViewportComponent = (function () {
             console.log(intersects);
             if (intersects.length > 0) {
                 console.log(intersects[0].object.name);
-                holomatrix.scope.properties.selectObject(intersects[0].object.name, true);
+                var selectedObject = intersects[0].object.name;
+                if (holomatrix.scope.properties.selectedObject.name != selectedObject) {
+                    console.log('select ' + selectedObject);
+                    holomatrix.execute('select', selectedObject);
+                }
             }
             else {
             }

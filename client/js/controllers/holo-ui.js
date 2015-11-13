@@ -16,9 +16,8 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         //var objectName:string = holomatrix.api.polygon.create(apiParams);
         //holomatrix.scope.console.addToCommandHistory('polygon.create', apiParams, objectName);
         //$scope.selectObject(objectName);
-        holomatrix.execute('polygon.create', apiParams, {
-            selectCreatedObjects: true
-        });
+        var objectName = holomatrix.execute('polygon.create', apiParams);
+        holomatrix.execute('select', objectName);
     };
     /**
      * Copy object properties to local models

@@ -22,9 +22,8 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         //holomatrix.scope.console.addToCommandHistory('polygon.create', apiParams, objectName);
         
         //$scope.selectObject(objectName);
-        holomatrix.execute('polygon.create', apiParams, {
-            selectCreatedObjects: true
-        });
+        var objectName = holomatrix.execute('polygon.create', apiParams);
+        holomatrix.execute('select', objectName);
         
     };
         

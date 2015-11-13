@@ -20,9 +20,6 @@ class PolygonAPI {
         holomatrix.data.sceneObjects[objectName].name = objectName; 
         holomatrix.viewport.scene.add(holomatrix.data.sceneObjects[objectName]);
     
-        if ('selectCreatedObjects' in holomatrix.api.options)
-            holomatrix.execute('select', objectName);
-    
         return objectName;
     
     }

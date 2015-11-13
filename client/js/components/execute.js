@@ -1,12 +1,17 @@
+var ExecuteVars = {
+    busy: false,
+    tasks: []
+};
 var ExecuteFunction = function (command, params, apiOpts) {
     if (typeof command == 'string') {
+        var originalCommand = command;
         if (params)
             command += '(' + JSON.stringify(params) + ')';
-        holomatrix.scope.console.addToCommandHistory(command);
         command = command.replace('console.log', 'holomatrix.scope.console.logMessage');
         if (apiOpts)
             holomatrix.api.setOptions(apiOpts);
         var returnValue = eval(command);
+        holomatrix.scope.console.addToCommandHistory(originalCommand, params, returnValue);
         if (apiOpts)
             holomatrix.api.unsetOptions();
         return returnValue;

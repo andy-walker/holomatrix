@@ -21,13 +21,16 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
             $scope.commandHistory += apiCommand;
             if (!apiCommand.match(/;$/))
                 apiCommand += ';'
-        } else if (apiCommand && apiParams)
+        } else if (apiCommand && apiParams) {
+            console.log('apiParams = ' + apiParams);
             $scope.commandHistory += apiCommand + '(' + JSON.stringify(apiParams, null, 4) + ");\n";
+        }
             
         if (returnValue)
             $scope.commandHistory += '// ' + returnValue + "\n";
             
-        $scope.commandHistory += "\n";
+        //$scope.commandHistory += "\n";
+        $scope.safeApply();
           
     };
     
@@ -61,5 +64,17 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
         $scope.script = "";
         
     };
+    
+    $scope.safeApply = function(fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if(fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+    
            
 });

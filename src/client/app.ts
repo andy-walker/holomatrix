@@ -24,7 +24,7 @@ var holomatrix:Holomatrix = {
         sceneObjects: {}
     },
     
-    execute:   ExecuteFunction,
+    execute:   function() {},
     scope:     {},
     transport: new TransportComponent(),
     ui:        {},
@@ -33,11 +33,10 @@ var holomatrix:Holomatrix = {
 
 };
 
-// Initialize 3D viewport
+// Initialize components
 holomatrix.viewport.initialize();
-
-// Initialize transport
 holomatrix.transport.initialize();
+holomatrix.execute = holomatrix.api.execute;
 
 // Initialize UI
 holomatrix.ui = angular.module('holomatrix', [
