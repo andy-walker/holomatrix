@@ -14,17 +14,18 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
             return;
         else if (apiCommand && !apiParams) {
             apiCommand = apiCommand.trim();
-            $scope.commandHistory += apiCommand;
             if (!apiCommand.match(/;$/))
-                apiCommand += ';';
+                apiCommand += ";";
         }
         else if (apiCommand && apiParams) {
             console.log('apiParams = ' + apiParams);
-            $scope.commandHistory += apiCommand + '(' + JSON.stringify(apiParams, null, 4) + ");\n";
+            apiCommand += '(' + JSON.stringify(apiParams, null, 4) + ");";
         }
+        apiCommand += "\n";
         if (returnValue)
-            $scope.commandHistory += '// ' + returnValue + "\n";
-        //$scope.commandHistory += "\n";
+            apiCommand += '// ' + returnValue + "\n";
+        console.log(apiCommand);
+        $scope.commandHistory += apiCommand;
         $scope.safeApply();
     };
     $scope.consoleViewOptions = {

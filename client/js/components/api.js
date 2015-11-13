@@ -14,9 +14,9 @@ var APIComponent = (function () {
             command = command.replace('console.log', 'holomatrix.scope.console.logMessage');
             if (apiOpts)
                 api.setOptions(apiOpts);
-            var returnValue = eval(command);
-            console.log('add to command history - params: ' + params);
             holomatrix.scope.console.addToCommandHistory(originalCommand, params, returnValue);
+            var returnValue = eval(command);
+            //console.log('add to command history - params: ' + params + ', return value: ' + returnValue);
             if (apiOpts)
                 api.unsetOptions();
             return returnValue;

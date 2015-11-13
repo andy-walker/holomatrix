@@ -29,10 +29,11 @@ class APIComponent implements API_Interface {
             
             if (apiOpts)
                 api.setOptions(apiOpts);
-                
-            var returnValue:any = eval(command);
-            console.log('add to command history - params: ' + params);
+            
             holomatrix.scope.console.addToCommandHistory(originalCommand, params, returnValue);
+                            
+            var returnValue:any = eval(command);
+            //console.log('add to command history - params: ' + params + ', return value: ' + returnValue);
                     
             if (apiOpts) 
                 api.unsetOptions();
