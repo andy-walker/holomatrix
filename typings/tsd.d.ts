@@ -12,3 +12,4 @@
 /// <reference path="socket.io/socket.io.d.ts" />
 /// <reference path="codemirror/codemirror.d.ts" />
 /// <reference path="underscore/underscore.d.ts" />
+/// <reference path="sprintf/sprintf.d.ts" />

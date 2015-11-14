@@ -93,14 +93,12 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
     };
     $scope.updatePosition = function () {
         var properties = $scope.selectedObject;
-        var object = holomatrix.data.sceneObjects[properties.name];
-        var manipulator = holomatrix.data.sceneHelpers.manipulator;
-        //object.position.x = properties.position.x;
-        //object.position.y = properties.position.y;
-        //object.position.z = properties.position.z;
-        manipulator.position.x = properties.position.x;
-        manipulator.position.y = properties.position.y;
-        manipulator.position.z = properties.position.z;
+        holomatrix.execute(vsprintf('move("%s", %s, %s, %s)', [
+            properties.name,
+            properties.position.x || properties.position.x === 0 ? properties.position.x : 'null',
+            properties.position.y || properties.position.y === 0 ? properties.position.y : 'null',
+            properties.position.z || properties.position.z === 0 ? properties.position.z : 'null'
+        ]));
     };
     $scope.updateRotation = function () {
         var properties = $scope.selectedObject;

@@ -3,6 +3,7 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
     holomatrix.scope.console = $scope;
     $scope.script            = "";
     $scope.commandHistory    = "";
+    $scope.commandBuffer     = [];
     
     $scope.commandHistoryPanelLoaded = function(_editor) {
         console.log(_editor);
@@ -11,6 +12,10 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
             _editor.execCommand('goDocEnd');
         });
     };
+    
+    $scope.addToCommandBuffer = function(message:string) {
+        $scope.commandBuffer.push(message);
+    }
     
     $scope.addToCommandHistory = function(apiCommand:string, apiParams:any, returnValue:any) {
         
@@ -21,7 +26,6 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
             if (!apiCommand.match(/;$/))
                 apiCommand += ";";
         } else if (apiCommand && apiParams) {
-            console.log('apiParams = ' + apiParams);
             apiCommand += '(' + JSON.stringify(apiParams, null, 4) + ");";
         }
             
@@ -29,7 +33,12 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
             
         if (returnValue)
             apiCommand += '// ' + returnValue + "\n";
-        console.log(apiCommand);
+            
+        if ($scope.commandBuffer.length) {
+            apiCommand += $scope.commandBuffer.join('');
+            $scope.commandBuffer = [];
+        }
+
         $scope.commandHistory += apiCommand;
         $scope.safeApply();
           
@@ -53,13 +62,14 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
     };
     
     $scope.logMessage = function(message:string) {
-        $scope.commandHistory += "// " + message + "\n";
+        // add to command buffer to ensure output gets printed after the command(s) that generated it
+        $scope.addToCommandBuffer("// " + message + "\n");
     };
     
     $scope.runScript = function() {
         
         holomatrix.execute($scope.script, null, {
-           selectCreatedObjects: true 
+           selectCreatedObjects: true // todo: selectCreatedObjects should be assumed to be true, unless specified as false
         });
         
         $scope.script = "";

@@ -2,12 +2,16 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
     holomatrix.scope.console = $scope;
     $scope.script = "";
     $scope.commandHistory = "";
+    $scope.commandBuffer = [];
     $scope.commandHistoryPanelLoaded = function (_editor) {
         console.log(_editor);
         $scope.commandHistoryPanel = _editor;
         _editor.on('change', function () {
             _editor.execCommand('goDocEnd');
         });
+    };
+    $scope.addToCommandBuffer = function (message) {
+        $scope.commandBuffer.push(message);
     };
     $scope.addToCommandHistory = function (apiCommand, apiParams, returnValue) {
         if (!apiCommand)
@@ -18,13 +22,15 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
                 apiCommand += ";";
         }
         else if (apiCommand && apiParams) {
-            console.log('apiParams = ' + apiParams);
             apiCommand += '(' + JSON.stringify(apiParams, null, 4) + ");";
         }
         apiCommand += "\n";
         if (returnValue)
             apiCommand += '// ' + returnValue + "\n";
-        console.log(apiCommand);
+        if ($scope.commandBuffer.length) {
+            apiCommand += $scope.commandBuffer.join('');
+            $scope.commandBuffer = [];
+        }
         $scope.commandHistory += apiCommand;
         $scope.safeApply();
     };
@@ -44,11 +50,12 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
         theme: "night"
     };
     $scope.logMessage = function (message) {
-        $scope.commandHistory += "// " + message + "\n";
+        // add to command buffer to ensure output gets printed after the command(s) that generated it
+        $scope.addToCommandBuffer("// " + message + "\n");
     };
     $scope.runScript = function () {
         holomatrix.execute($scope.script, null, {
-            selectCreatedObjects: true
+            selectCreatedObjects: true // todo: selectCreatedObjects should be assumed to be true, unless specified as false
         });
         $scope.script = "";
     };

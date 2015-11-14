@@ -37,6 +37,9 @@
     },
     "underscore/underscore.d.ts": {
       "commit": "8c4ec896ab619e7cb6572f82423e6e1eece70f5a"
+    },
+    "sprintf/sprintf.d.ts": {
+      "commit": "efd40e67ff323f7147651bdbef03c03ead7b1675"
     }
   }
 }

@@ -14,12 +14,14 @@ var ViewportComponent = (function () {
         var renderer = new THREE.WebGLRenderer({ antialias: true, clearAlpha: 1, clearColor: 0x000000 });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
+        /*
         var stats = new Stats();
         stats.domElement.style.position = 'absolute';
-        stats.domElement.style.bottom = '2px';
-        stats.domElement.style.left = '2px';
-        stats.domElement.style.zIndex = 100;
-        document.body.appendChild(stats.domElement);
+        stats.domElement.style.bottom   = '2px';
+        stats.domElement.style.left     = '2px';
+        stats.domElement.style.zIndex   = 100;
+        document.body.appendChild( stats.domElement );
+        */
         var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
         directionalLight.position.set(5, 10, 10);
         var ambientLight = new THREE.AmbientLight(0x202020); // soft white light 
@@ -32,7 +34,7 @@ var ViewportComponent = (function () {
             requestAnimationFrame(animate);
             render();
             controls.update();
-            stats.update();
+            //stats.update();
         }
         function render() {
             renderer.render(holomatrix.viewport.scene, camera);

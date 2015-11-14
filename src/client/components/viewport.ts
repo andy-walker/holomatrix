@@ -32,13 +32,14 @@ class ViewportComponent {
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+        /*
         var stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.bottom   = '2px';
         stats.domElement.style.left     = '2px';
         stats.domElement.style.zIndex   = 100;
         document.body.appendChild( stats.domElement );
-
+        */
 
         var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5);
         directionalLight.position.set(5, 10, 10); 
@@ -59,7 +60,7 @@ class ViewportComponent {
 
             render();
             controls.update();
-            stats.update();
+            //stats.update();
 
         }
 

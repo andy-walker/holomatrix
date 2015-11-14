@@ -39,6 +39,7 @@ body {
 }
 
 .btn-label {
+    font-family:"Open Sans", sans-serif;
     text-transform: uppercase;
     color: white;
     font-size: 9px;
