@@ -1,9 +1,12 @@
 var APIComponent = (function () {
     function APIComponent() {
         this.polygon = new PolygonAPI();
+        this.transform = new TransformAPI();
         this.options = {};
         window.getSelected = this.getSelected;
-        window.move = this.move;
+        window.move = this.transform.move;
+        window.rotate = this.transform.rotate;
+        window.scale = this.transform.scale;
         window.polygon = this.polygon;
         window.select = this.select;
     }
@@ -44,64 +47,6 @@ var APIComponent = (function () {
     };
     APIComponent.prototype.log = function (message) {
         holomatrix.scope.console.logMessage(message);
-    };
-    APIComponent.prototype.move = function (arg1, arg2, arg3, arg4) {
-        var objectName;
-        var x;
-        var y;
-        var z;
-        // callspec: move(Object)
-        if (typeof arg1 == 'Object') {
-            if ('object' in arg1)
-                objectName = arg1.object;
-            if ('x' in arg1)
-                x = arg1.x;
-            if ('y' in arg1)
-                y = arg1.y;
-            if ('z' in arg1)
-                z = arg1.z;
-        }
-        else if (typeof arg1 == 'string') {
-            if (arg1 || arg1 === 0)
-                objectName = arg1;
-            if (arg2 || arg2 === 0)
-                x = arg2;
-            if (arg3 || arg3 === 0)
-                y = arg3;
-            if (arg4 || arg4 === 0)
-                z = arg4;
-        }
-        else {
-            if (arg1 || arg1 === 0)
-                x = arg1;
-            if (arg2 || arg2 === 0)
-                y = arg2;
-            if (arg3 || arg3 === 0)
-                z = arg3;
-        }
-        if (!objectName)
-            objectName = holomatrix.api.getSelected();
-        if (!objectName) {
-            holomatrix.api.log('no selection / no object specified');
-            return;
-        }
-        var object = holomatrix.api.getObject(objectName);
-        if (!object) {
-            holomatrix.api.log("object not found");
-            return;
-        }
-        if (x || x === 0)
-            object.position.x = x;
-        if (y || y === 0)
-            object.position.y = y;
-        if (z || z === 0)
-            object.position.z = z;
-        if (objectName == holomatrix.api.getSelected()) {
-            var manipulator = holomatrix.data.sceneHelpers.manipulator;
-            manipulator.position.x = object.position.x;
-            manipulator.position.y = object.position.y;
-            manipulator.position.z = object.position.z;
-        }
     };
     APIComponent.prototype.select = function (objectName) {
         // do this for now to get working, the logic for creating the manipulator should be moved

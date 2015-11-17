@@ -40,7 +40,7 @@ holomatrix.execute = holomatrix.api.execute;
 
 // Initialize UI
 holomatrix.ui = angular.module('holomatrix', [
-    'ui.codemirror', 'ui.utils.masks'
+    'ui.codemirror'
 ]);
 
 // holomatrix.execute("addPrimitive('cube')");

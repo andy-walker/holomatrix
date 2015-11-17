@@ -23,14 +23,16 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
      * Copy object properties to local models
      */
     $scope.getObjectProperties = function (objectName) {
-        console.log('getObjectProperties for ' + objectName);
         $scope.selectedObject.name = objectName;
-        console.log('selectedObject.name = ' + $scope.selectedObject.name);
-        $scope.selectedObject.position = holomatrix.data.sceneObjects[objectName].position;
+        $scope.selectedObject.position.x = holomatrix.data.sceneObjects[objectName].position.x;
+        $scope.selectedObject.position.y = holomatrix.data.sceneObjects[objectName].position.y;
+        $scope.selectedObject.position.z = holomatrix.data.sceneObjects[objectName].position.z;
         $scope.selectedObject.rotation.x = holomatrix.data.sceneObjects[objectName].rotation.x;
         $scope.selectedObject.rotation.y = holomatrix.data.sceneObjects[objectName].rotation.y;
         $scope.selectedObject.rotation.z = holomatrix.data.sceneObjects[objectName].rotation.z;
-        $scope.selectedObject.scale = holomatrix.data.sceneObjects[objectName].scale;
+        $scope.selectedObject.scale.x = holomatrix.data.sceneObjects[objectName].scale.x;
+        $scope.selectedObject.scale.y = holomatrix.data.sceneObjects[objectName].scale.y;
+        $scope.selectedObject.scale.z = holomatrix.data.sceneObjects[objectName].scale.z;
     };
     $scope.selectNone = function () {
         var manipulator = holomatrix.data.sceneHelpers.manipulator;
@@ -93,23 +95,43 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
     };
     $scope.updatePosition = function () {
         var properties = $scope.selectedObject;
-        holomatrix.execute(vsprintf('move("%s", %s, %s, %s)', [
-            properties.name,
-            properties.position.x || properties.position.x === 0 ? properties.position.x : 'null',
-            properties.position.y || properties.position.y === 0 ? properties.position.y : 'null',
-            properties.position.z || properties.position.z === 0 ? properties.position.z : 'null'
-        ]));
+        properties.position = $scope.vec3EnsureNumeric(properties.position);
+        var x = properties.position.x || properties.position.x === 0 ? properties.position.x : 'null';
+        var y = properties.position.y || properties.position.y === 0 ? properties.position.y : 'null';
+        var z = properties.position.z || properties.position.z === 0 ? properties.position.z : 'null';
+        if (x != '-' && y != '-' && z != '-')
+            holomatrix.execute('move("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');');
     };
     $scope.updateRotation = function () {
         var properties = $scope.selectedObject;
-        var object = holomatrix.data.sceneObjects[properties.name];
-        object.rotation.x = holomatrix.utils.deg2rad(properties.rotation.x);
-        object.rotation.y = holomatrix.utils.deg2rad(properties.rotation.y);
-        object.rotation.z = holomatrix.utils.deg2rad(properties.rotation.z);
+        properties.rotation = $scope.vec3EnsureNumeric(properties.rotation);
+        var x = properties.rotation.x || properties.rotation.x === 0 ? properties.rotation.x : 'null';
+        var y = properties.rotation.y || properties.rotation.y === 0 ? properties.rotation.y : 'null';
+        var z = properties.rotation.z || properties.rotation.z === 0 ? properties.rotation.z : 'null';
+        if (x != '-' && y != '-' && z != '-')
+            holomatrix.execute('rotate("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');');
     };
     $scope.updateScale = function () {
-        var object = $scope.selectedObject;
-        object.scale = $scope.objectProperties.scale;
-        //render();
+        var properties = $scope.selectedObject;
+        properties.scale = $scope.vec3EnsureNumeric(properties.scale);
+        var x = properties.scale.x || properties.scale.x === 0 ? properties.scale.x : 'null';
+        var y = properties.scale.y || properties.scale.y === 0 ? properties.scale.y : 'null';
+        var z = properties.scale.z || properties.scale.z === 0 ? properties.scale.z : 'null';
+        if (x != '-' && y != '-' && z != '-')
+            holomatrix.execute('scale("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');');
+    };
+    /**
+     * ensure entered values are numeric - if not, remove invalid characters
+     * */
+    $scope.vec3EnsureNumeric = function (vec3) {
+        ['x', 'y', 'z'].forEach(function (property) {
+            if (typeof vec3[property] === 'string') {
+                // strip non-numeric apart from '-' and '.'
+                vec3[property] = vec3[property].replace(/[^\d.-]/g, '');
+                // '-' can only be first character
+                vec3[property] = vec3[property].replace(/(.)-+/g, '$1');
+            }
+        });
+        return vec3;
     };
 });
