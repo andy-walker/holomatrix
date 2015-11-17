@@ -19,6 +19,10 @@ io.on('connection', function(socket) {
  
     console.log('client connected');
 
+    socket.on('command', function(command:string) {
+        console.log('received command: ' + command); 
+    });
+
     socket.on('disconnect', function() {
         console.log('client disconnected');
     });

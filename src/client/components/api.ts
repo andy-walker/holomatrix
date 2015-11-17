@@ -6,7 +6,8 @@ class APIComponent implements API_Interface {
     
     public polygon   = new PolygonAPI();
     public transform = new TransformAPI();
-    public options:Object = {}; 
+    public options:Object = {};
+    
     
     constructor() {
         
@@ -19,9 +20,7 @@ class APIComponent implements API_Interface {
                 
     }
     
-    public execute(command:any, params:any, apiOpts:any):any {
-        
-        var api = holomatrix.api;
+    public execute = (command:any, params:any, apiOpts:any):any => {
         
         if (typeof command == 'string') {
             
@@ -33,15 +32,20 @@ class APIComponent implements API_Interface {
             command = command.replace('console.log', 'holomatrix.api.log');
             
             if (apiOpts)
-                api.setOptions(apiOpts);
+                this.setOptions(apiOpts);
             
             // using window.eval (rather than eval) ensures variables assigned from the 
             // console using 'var' are persistently accessible    
             var returnValue:any = window.eval(command);
+            
+            // broadcast command
+            holomatrix.transport.broadcast(command);
+            
+            // add command to history
             holomatrix.scope.console.addToCommandHistory(originalCommand, params, returnValue);
                     
             if (apiOpts) 
-                api.unsetOptions();
+                this.unsetOptions();
                                 
             return returnValue;
             

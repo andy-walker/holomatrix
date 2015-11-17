@@ -1,5 +1,15 @@
 var TransformAPI = (function () {
     function TransformAPI() {
+        var _this = this;
+        this.move = function (arg1, arg2, arg3, arg4) {
+            _this.transform('position', arg1, arg2, arg3, arg4);
+        };
+        this.rotate = function (arg1, arg2, arg3, arg4) {
+            _this.transform('rotation', arg1, arg2, arg3, arg4);
+        };
+        this.scale = function (arg1, arg2, arg3, arg4) {
+            _this.transform('scale', arg1, arg2, arg3, arg4);
+        };
     }
     TransformAPI.prototype.transform = function (property, arg1, arg2, arg3, arg4) {
         var objectName;
@@ -85,15 +95,6 @@ var TransformAPI = (function () {
             manipulator.position.y = object.position.y;
             manipulator.position.z = object.position.z;
         }
-    };
-    TransformAPI.prototype.move = function (arg1, arg2, arg3, arg4) {
-        holomatrix.api.transform.transform('position', arg1, arg2, arg3, arg4);
-    };
-    TransformAPI.prototype.rotate = function (arg1, arg2, arg3, arg4) {
-        holomatrix.api.transform.transform('rotation', arg1, arg2, arg3, arg4);
-    };
-    TransformAPI.prototype.scale = function (arg1, arg2, arg3, arg4) {
-        holomatrix.api.transform.transform('scale', arg1, arg2, arg3, arg4);
     };
     return TransformAPI;
 })();

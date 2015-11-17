@@ -2,8 +2,12 @@ class TransportComponent {
     
     private socket;
     
-    public initialize() {
-        //this.socket = io.connect();
+    public broadcast = (command:string) => {
+        this.socket.emit('command', command);
+    }
+    
+    public initialize = () => {
+        this.socket = io.connect();        
     }
     
 }

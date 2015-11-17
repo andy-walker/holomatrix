@@ -112,16 +112,16 @@ class TransformAPI {
             
     }
    
-    public move(arg1:any, arg2:any, arg3:any, arg4:any):void {
-        holomatrix.api.transform.transform('position', arg1, arg2, arg3, arg4);
+    public move = (arg1:any, arg2:any, arg3:any, arg4:any) => {
+        this.transform('position', arg1, arg2, arg3, arg4);
     }
 
-    public rotate(arg1:any, arg2:any, arg3:any, arg4:any):void {
-        holomatrix.api.transform.transform('rotation', arg1, arg2, arg3, arg4);
+    public rotate = (arg1:any, arg2:any, arg3:any, arg4:any) => {
+        this.transform('rotation', arg1, arg2, arg3, arg4);
     }
 
-    public scale(arg1:any, arg2:any, arg3:any, arg4:any):void {
-        holomatrix.api.transform.transform('scale', arg1, arg2, arg3, arg4);
+    public scale = (arg1:any, arg2:any, arg3:any, arg4:any) => {
+        this.transform('scale', arg1, arg2, arg3, arg4);
     }
 
 }

@@ -1,8 +1,35 @@
 var APIComponent = (function () {
     function APIComponent() {
+        var _this = this;
         this.polygon = new PolygonAPI();
         this.transform = new TransformAPI();
         this.options = {};
+        this.execute = function (command, params, apiOpts) {
+            if (typeof command == 'string') {
+                var originalCommand = command;
+                if (params)
+                    command += '(' + JSON.stringify(params) + ')';
+                command = command.replace('console.log', 'holomatrix.api.log');
+                if (apiOpts)
+                    _this.setOptions(apiOpts);
+                // using window.eval (rather than eval) ensures variables assigned from the 
+                // console using 'var' are persistently accessible    
+                var returnValue = window.eval(command);
+                // broadcast command
+                holomatrix.transport.broadcast(command);
+                // add command to history
+                holomatrix.scope.console.addToCommandHistory(originalCommand, params, returnValue);
+                if (apiOpts)
+                    _this.unsetOptions();
+                return returnValue;
+            }
+            else {
+                var apiCommand = command.toString();
+                apiCommand += params ? '(' + JSON.stringify(params) + ')' : '()';
+                apiCommand += ';';
+                return command(params);
+            }
+        };
         window.getSelected = this.getSelected;
         window.move = this.transform.move;
         window.rotate = this.transform.rotate;
@@ -10,30 +37,6 @@ var APIComponent = (function () {
         window.polygon = this.polygon;
         window.select = this.select;
     }
-    APIComponent.prototype.execute = function (command, params, apiOpts) {
-        var api = holomatrix.api;
-        if (typeof command == 'string') {
-            var originalCommand = command;
-            if (params)
-                command += '(' + JSON.stringify(params) + ')';
-            command = command.replace('console.log', 'holomatrix.api.log');
-            if (apiOpts)
-                api.setOptions(apiOpts);
-            // using window.eval (rather than eval) ensures variables assigned from the 
-            // console using 'var' are persistently accessible    
-            var returnValue = window.eval(command);
-            holomatrix.scope.console.addToCommandHistory(originalCommand, params, returnValue);
-            if (apiOpts)
-                api.unsetOptions();
-            return returnValue;
-        }
-        else {
-            var apiCommand = command.toString();
-            apiCommand += params ? '(' + JSON.stringify(params) + ')' : '()';
-            apiCommand += ';';
-            return command(params);
-        }
-    };
     APIComponent.prototype.getObject = function (objectName) {
         if (objectName in holomatrix.data.sceneObjects)
             return holomatrix.data.sceneObjects[objectName];

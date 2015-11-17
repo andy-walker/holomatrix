@@ -12,6 +12,9 @@ app.get('/', function (req, res) {
 app.use(express.static(webroot));
 io.on('connection', function (socket) {
     console.log('client connected');
+    socket.on('command', function (command) {
+        console.log('received command: ' + command);
+    });
     socket.on('disconnect', function () {
         console.log('client disconnected');
     });
