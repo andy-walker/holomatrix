@@ -32,19 +32,23 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
      */
     $scope.getObjectProperties = function(objectName:string) {
            
-        $scope.selectedObject.name     = objectName;
+        var selectedObject = $scope.selectedObject;
+        var object         = holomatrix.data.sceneObjects[objectName];
+        var rad2deg        = holomatrix.utils.rad2deg;
+          
+        $scope.selectedObject.name = objectName;
         
-        $scope.selectedObject.position.x = holomatrix.data.sceneObjects[objectName].position.x;
-        $scope.selectedObject.position.y = holomatrix.data.sceneObjects[objectName].position.y;
-        $scope.selectedObject.position.z = holomatrix.data.sceneObjects[objectName].position.z;
+        selectedObject.position.x = object.position.x;
+        selectedObject.position.y = object.position.y;
+        selectedObject.position.z = object.position.z;
         
-        $scope.selectedObject.rotation.x = holomatrix.data.sceneObjects[objectName].rotation.x;
-        $scope.selectedObject.rotation.y = holomatrix.data.sceneObjects[objectName].rotation.y;
-        $scope.selectedObject.rotation.z = holomatrix.data.sceneObjects[objectName].rotation.z;
+        selectedObject.rotation.x = Math.round(rad2deg(object.rotation.x) * 10000) / 10000;
+        selectedObject.rotation.y = Math.round(rad2deg(object.rotation.y) * 10000) / 10000;
+        selectedObject.rotation.z = Math.round(rad2deg(object.rotation.z) * 10000) / 10000;
         
-        $scope.selectedObject.scale.x = holomatrix.data.sceneObjects[objectName].scale.x;
-        $scope.selectedObject.scale.y = holomatrix.data.sceneObjects[objectName].scale.y;
-        $scope.selectedObject.scale.z = holomatrix.data.sceneObjects[objectName].scale.z;
+        selectedObject.scale.x    = object.scale.x;
+        selectedObject.scale.y    = object.scale.y;
+        selectedObject.scale.z    = object.scale.z;
         
     };
     
@@ -136,7 +140,7 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         var z:any = properties.position.z || properties.position.z === 0 ? properties.position.z : 'null';
         
         if (x != '-' && y != '-' && z != '-')
-            holomatrix.execute('move("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');');
+            holomatrix.execute('move("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');', null, {updateUI: false});
         
     };
 
@@ -150,7 +154,7 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         var z:any = properties.rotation.z || properties.rotation.z === 0 ? properties.rotation.z : 'null';
         
         if (x != '-' && y != '-' && z != '-')
-            holomatrix.execute('rotate("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');');
+            holomatrix.execute('rotate("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');', null, {updateUI: false});
     
     };
 
@@ -164,7 +168,7 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         var z:any = properties.scale.z || properties.scale.z === 0 ? properties.scale.z : 'null';
         
         if (x != '-' && y != '-' && z != '-')
-            holomatrix.execute('scale("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');');
+            holomatrix.execute('scale("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');', null, {updateUI: false});
     
     };
     

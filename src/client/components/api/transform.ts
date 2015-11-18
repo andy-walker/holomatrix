@@ -101,15 +101,21 @@ class TransformAPI {
                     break;
             }
         }
+        
+        if (objectName == holomatrix.api.getSelected()) {
+        
+            if (property == 'position') {          
+                var manipulator = holomatrix.data.sceneHelpers.manipulator;    
+                manipulator.position.x = object.position.x;
+                manipulator.position.y = object.position.y;
+                manipulator.position.z = object.position.z;
+            }            
             
-        if (property == 'position' && objectName == holomatrix.api.getSelected()) {
-            
-            var manipulator = holomatrix.data.sceneHelpers.manipulator;    
-            manipulator.position.x = object.position.x;
-            manipulator.position.y = object.position.y;
-            manipulator.position.z = object.position.z;
-        }            
-            
+            if (!('updateUI' in holomatrix.api.options) || holomatrix.api.options.updateUI !== false)
+                holomatrix.scope.properties.getObjectProperties(objectName);
+                 
+        }
+    
     }
    
     public move = (arg1:any, arg2:any, arg3:any, arg4:any) => {
