@@ -123,10 +123,9 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         if (sceneHelpers.selectionWireframe)
             holomatrix.viewport.scene.remove(sceneHelpers.selectionWireframe);
             
-            sceneHelpers.selectionWireframe = new THREE.EdgesHelper(sceneObjects[objectName], 0x6ff278);
-            sceneHelpers.selectionWireframe.material.linewidth = 1.5;
-            holomatrix.viewport.scene.add(sceneHelpers.selectionWireframe);
-       
+        sceneHelpers.selectionWireframe = new THREE.EdgesHelper(sceneObjects[objectName], 0x6ff278);
+        sceneHelpers.selectionWireframe.material.linewidth = 1.5;
+        holomatrix.viewport.scene.add(sceneHelpers.selectionWireframe);
         
     };
     

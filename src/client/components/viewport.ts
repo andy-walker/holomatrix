@@ -110,5 +110,9 @@ class ViewportComponent {
         animate();
                 
      }
+     
+     public changeSelectMode(mode:string) {
+         // todo
+     }
         
 }

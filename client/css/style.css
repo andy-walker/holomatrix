@@ -141,6 +141,14 @@ body {
     padding:2px 0;
 }
 
+.menu-divider {
+    border-left: 1px solid #666;
+    border-right: 1px solid #333;
+    margin: 0 10px;
+    position: relative;
+    top: 4px;
+}
+
 .logo {
     float:left;
     font-size:18px;
@@ -160,6 +168,26 @@ body {
     width:35px;
     transition: all 0.35s;
     cursor:pointer;
+}
+
+.menu button.menu-select {
+    
+}
+
+.menu button.menu-select-object {
+    background:url('/images/select-object.png') center center no-repeat;
+}
+
+.menu button.menu-select-vertex {
+    background:url('/images/select-vertex.png') center center no-repeat;
+}
+
+.menu button.menu-select-edge {
+    background:url('/images/select-edge.png') center center no-repeat;
+}
+
+.menu button.menu-select-face {
+    background:url('/images/select-face.png') center center no-repeat;
 }
 
 .menu button:hover {

@@ -3,6 +3,7 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
     $scope.script = "";
     $scope.commandHistory = "";
     $scope.commandBuffer = [];
+    $scope.selectMode = 'object';
     $scope.commandHistoryPanelLoaded = function (_editor) {
         console.log(_editor);
         $scope.commandHistoryPanel = _editor;
@@ -69,5 +70,9 @@ angular.module('holomatrix').controller('ConsoleController', function ($scope) {
         else {
             this.$apply(fn);
         }
+    };
+    $scope.setSelectMode = function (mode) {
+        $scope.selectMode = mode;
+        holomatrix.viewport.changeSelectMode(mode);
     };
 });

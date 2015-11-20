@@ -72,5 +72,8 @@ var ViewportComponent = (function () {
         document.getElementsByTagName('canvas')[0].addEventListener('mousedown', onDocumentMouseDown, false);
         animate();
     };
+    ViewportComponent.prototype.changeSelectMode = function (mode) {
+        // todo
+    };
     return ViewportComponent;
 })();
