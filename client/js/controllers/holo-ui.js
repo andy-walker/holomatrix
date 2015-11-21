@@ -1,9 +1,8 @@
 angular.module('holomatrix').controller('HoloUI', function ($scope) {
     holomatrix.scope.properties = $scope;
     holomatrix.data.sceneHelpers.manipulator.addEventListener('change', function () {
-        console.log('updating ui');
         $scope.getObjectProperties();
-        $scope.safeApply();
+        $scope.$apply();
     });
     $scope.selectedObject = {
         name: '',
