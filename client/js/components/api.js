@@ -30,6 +30,7 @@ var APIComponent = (function () {
                 return command(params);
             }
         };
+        window.getObject = this.getObject;
         window.getSelected = this.getSelected;
         window.move = this.transform.move;
         window.rotate = this.transform.rotate;

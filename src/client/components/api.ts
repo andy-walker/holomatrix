@@ -11,6 +11,7 @@ class APIComponent implements API_Interface {
     
     constructor() {
         
+        window.getObject   = this.getObject;
         window.getSelected = this.getSelected;
         window.move        = this.transform.move;
         window.rotate      = this.transform.rotate;

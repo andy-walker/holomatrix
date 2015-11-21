@@ -52,7 +52,7 @@ class TransformAPI {
         }
         
         if (!objectName)
-            objectName = holomatrix.api.getSelected();
+            objectName = getSelected();
  
         if (!objectName) {
             holomatrix.api.log('no selection / no object specified');

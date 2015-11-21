@@ -1,6 +1,12 @@
 angular.module('holomatrix').controller('HoloUI', function ($scope) {
     
     holomatrix.scope.properties = $scope;
+
+    holomatrix.data.sceneHelpers.manipulator.addEventListener('change', function() {
+        console.log('updating ui');
+        $scope.getObjectProperties();
+        $scope.safeApply();
+    });
     
     $scope.selectedObject = {
         name:     '',
@@ -8,6 +14,8 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         rotation: { x: 0, y: 0, z: 0 },
         scale:    { x: 1, y: 1, z: 1 },
     };
+
+    $scope.selectionMode = 'object';
     
     $scope.addPrimitive = function(primitiveType:string) {
         
@@ -17,13 +25,11 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
             height: 1,
             depth:  1 
         };
-        
-        //var objectName:string = holomatrix.api.polygon.create(apiParams);
-        //holomatrix.scope.console.addToCommandHistory('polygon.create', apiParams, objectName);
-        
-        //$scope.selectObject(objectName);
+                
         var objectName = holomatrix.execute('polygon.create', apiParams);
         holomatrix.execute('select', objectName);
+
+        //holomatrix.data.sceneHelpers.manipulator.setMode("translate");
         
     };
         
@@ -31,9 +37,11 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
      * Copy object properties to local models
      */
     $scope.getObjectProperties = function(objectName:string) {
+
+        objectName = objectName || getSelected();
            
         var selectedObject = $scope.selectedObject;
-        var object         = holomatrix.data.sceneObjects[objectName];
+        var object         = getObject(objectName);
         var rad2deg        = holomatrix.utils.rad2deg;
           
         $scope.selectedObject.name = objectName;
@@ -42,9 +50,9 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         selectedObject.position.y = object.position.y;
         selectedObject.position.z = object.position.z;
         
-        selectedObject.rotation.x = Math.round(rad2deg(object.rotation.x) * 10000) / 10000;
-        selectedObject.rotation.y = Math.round(rad2deg(object.rotation.y) * 10000) / 10000;
-        selectedObject.rotation.z = Math.round(rad2deg(object.rotation.z) * 10000) / 10000;
+        selectedObject.rotation.x = Math.round(rad2deg(object.rotation.x) * 1000) / 1000;
+        selectedObject.rotation.y = Math.round(rad2deg(object.rotation.y) * 1000) / 1000;
+        selectedObject.rotation.z = Math.round(rad2deg(object.rotation.z) * 1000) / 1000;
         
         selectedObject.scale.x    = object.scale.x;
         selectedObject.scale.y    = object.scale.y;
@@ -77,58 +85,16 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
     
     $scope.selectObject = function(objectName:string) {
         
-        $scope.setManipulator(objectName);
-        $scope.setSelectionWireframe(objectName);
-        $scope.getObjectProperties(objectName);
+        var viewport = holomatrix.viewport;
 
+        viewport.setManipulator(objectName);
+        viewport.setSelectionWireframe(objectName);
+
+        $scope.getObjectProperties(objectName);
         $scope.safeApply();
 
     };
-    
-    /**
-     * Move manipulator to selected object position
-     */
-    $scope.setManipulator = function(objectName:string) {
-        
-        var sceneHelpers = holomatrix.data.sceneHelpers;
-        var sceneObjects = holomatrix.data.sceneObjects;
-        
-        // if manipulator uninitialized, create and set to object position
-        if (!sceneHelpers.manipulator) {
-            
-            sceneHelpers.manipulator = new THREE.ManipulatorTool();
-            sceneHelpers.manipulator.scale.x = 0.01;
-            sceneHelpers.manipulator.scale.y = 0.01;
-            sceneHelpers.manipulator.scale.z = 0.01;
-            holomatrix.viewport.scene.add(sceneHelpers.manipulator);
-            sceneHelpers.manipulator.position = sceneObjects[objectName].position; 
-        
-        // otherwise, move manipulator to object position
-        } else {
-            //sceneHelpers.manipulator.position = sceneObjects[objectName].position;
-            
-            sceneHelpers.manipulator.position.x = sceneObjects[objectName].position.x;
-            sceneHelpers.manipulator.position.y = sceneObjects[objectName].position.y;
-            sceneHelpers.manipulator.position.z = sceneObjects[objectName].position.z;
-            
-        }
-                 
-    };
-    
-    $scope.setSelectionWireframe = function(objectName:string) {
 
-        var sceneHelpers = holomatrix.data.sceneHelpers;
-        var sceneObjects = holomatrix.data.sceneObjects;
-        
-        if (sceneHelpers.selectionWireframe)
-            holomatrix.viewport.scene.remove(sceneHelpers.selectionWireframe);
-            
-        sceneHelpers.selectionWireframe = new THREE.EdgesHelper(sceneObjects[objectName], 0x6ff278);
-        sceneHelpers.selectionWireframe.material.linewidth = 1.5;
-        holomatrix.viewport.scene.add(sceneHelpers.selectionWireframe);
-        
-    };
-    
     $scope.updatePosition = function() {
     
         var properties      = $scope.selectedObject;
@@ -170,10 +136,18 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
             holomatrix.execute('scale("' + properties.name + '", ' + x + ', ' + y + ', ' + z + ');', null, {updateUI: false});
     
     };
-    
+
+    $scope.updateSelectionMode = function(mode:string) {
+        // ng-model doesn't seem to update for some reason (?) - so update that here for now
+        $scope.selectionMode = mode;
+        // reflect new mode in viewport
+        holomatrix.viewport.changeSelectMode(mode);
+
+    };
+
     /** 
      * ensure entered values are numeric - if not, remove invalid characters
-     * */
+     */
     $scope.vec3EnsureNumeric = function(vec3:Object) {     
         ['x', 'y', 'z'].forEach(function(property:string) {
             if (typeof vec3[property] === 'string') {
@@ -185,4 +159,5 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         });
         return vec3;
     }
+
 });

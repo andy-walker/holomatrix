@@ -23,6 +23,6 @@ holomatrix.transport.initialize();
 holomatrix.execute = holomatrix.api.execute;
 // Initialize UI
 holomatrix.ui = angular.module('holomatrix', [
-    'ui.codemirror'
+    'ui.codemirror', 'ui.bootstrap.buttons'
 ]);
 // holomatrix.execute("addPrimitive('cube')");
