@@ -2,10 +2,10 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
     
     holomatrix.scope.properties = $scope;
 
-    holomatrix.data.sceneHelpers.manipulator.addEventListener('change', function() {
+    holomatrix.data.sceneHelpers.manipulator.addEventListener('change', _.throttle(function() {
         $scope.getObjectProperties();
         $scope.$apply();
-    });
+    }, 40));
     
     $scope.selectedObject = {
         name:     '',
