@@ -12,7 +12,7 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
                 break;
             case _.indexOf(changed, 'rotation') >= 0:
                 var rad2deg = holomatrix.utils.rad2deg;
-                holomatrix.execute(sprintf('rotate("%s", %s, %s, %s);', selected, rad2deg(object.rotation.x), rad2deg(object.position.y), rad2deg(object.position.z)), null, {
+                holomatrix.execute(sprintf('rotate("%s", %s, %s, %s);', selected, rad2deg(object.rotation.x), rad2deg(object.rotation.y), rad2deg(object.rotation.z)), null, {
                     'updateUI': false,
                     'updateViewport': false
                 });
