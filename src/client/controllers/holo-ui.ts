@@ -2,8 +2,35 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
     
     holomatrix.scope.properties = $scope;
 
+    $scope.generateAPICommand = _.debounce(function(changed) {
+        var selected = getSelected();
+        var object = getObject(selected);
+        switch (true) {
+            case _.indexOf(changed, 'position') >= 0:
+                holomatrix.execute(sprintf('move("%s", %s, %s, %s);', selected, object.position.x, object.position.y, object.position.z), null, {
+                    'updateUI': false,
+                    'updateViewport': false
+                });
+                break;
+            case _.indexOf(changed, 'rotation') >= 0:
+                var rad2deg = holomatrix.utils.rad2deg;
+                holomatrix.execute(sprintf('rotate("%s", %s, %s, %s);', selected, rad2deg(object.rotation.x), rad2deg(object.position.y), rad2deg(object.position.z)), null, {
+                    'updateUI': false,
+                    'updateViewport': false
+                });
+                break;
+            case _.indexOf(changed, 'scale') >= 0:
+                holomatrix.execute(sprintf('scale("%s", %s, %s, %s);', selected, object.scale.x, object.scale.y, object.scale.z), null, {
+                    'updateUI': false,
+                    'updateViewport': false
+                });
+                break;
+        }
+    }, 50);
+
     holomatrix.data.sceneHelpers.manipulator.addEventListener('change', _.throttle(function() {
-        $scope.getObjectProperties();
+        var changed = $scope.getObjectProperties();
+        $scope.generateAPICommand(changed);
         $scope.$apply();
     }, 40));
     
@@ -42,21 +69,48 @@ angular.module('holomatrix').controller('HoloUI', function ($scope) {
         var selectedObject = $scope.selectedObject;
         var object         = getObject(objectName);
         var rad2deg        = holomatrix.utils.rad2deg;
+        
+        // mark updated transforms so we can return them
+        var changed = [];
+        var a, b;
           
         $scope.selectedObject.name = objectName;
         
-        selectedObject.position.x = object.position.x;
-        selectedObject.position.y = object.position.y;
-        selectedObject.position.z = object.position.z;
+        // update position
+        a = selectedObject.position;
+        b = object.position;
+
+        if (a.x != b.x || a.y != b.y || a.z != b.z)
+            changed.push('position');
+
+        a.x = b.x;
+        a.y = b.y;
+        a.z = b.z;
         
-        selectedObject.rotation.x = Math.round(rad2deg(object.rotation.x) * 1000) / 1000;
-        selectedObject.rotation.y = Math.round(rad2deg(object.rotation.y) * 1000) / 1000;
-        selectedObject.rotation.z = Math.round(rad2deg(object.rotation.z) * 1000) / 1000;
+        // update rotation
+        a = selectedObject.rotation;
+        b = object.rotation
+
+        if (a.x != b.x || a.y != b.y || a.z != b.z)
+            changed.push('rotation');
+
+        a.x = Math.round(rad2deg(b.x) * 1000) / 1000;
+        a.y = Math.round(rad2deg(b.y) * 1000) / 1000;
+        a.z = Math.round(rad2deg(b.z) * 1000) / 1000;
+
+        // update scale
+        a = selectedObject.scale;
+        b = object.scale
         
-        selectedObject.scale.x    = object.scale.x;
-        selectedObject.scale.y    = object.scale.y;
-        selectedObject.scale.z    = object.scale.z;
+        if (a.x != b.x || a.y != b.y || a.z != b.z)
+            changed.push('scale');
+
+        a.x = b.x;
+        a.y = b.y;
+        a.z = b.z;
         
+        return changed;
+
     };
     
     $scope.selectNone = function() {

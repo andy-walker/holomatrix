@@ -56,37 +56,39 @@ var TransformAPI = (function () {
             holomatrix.api.log("object not found");
             return;
         }
-        if (x || x === 0) {
-            switch (property) {
-                case 'position':
-                case 'scale':
-                    object[property].x = x;
-                    break;
-                case 'rotation':
-                    object.rotation.x = holomatrix.utils.deg2rad(x);
-                    break;
+        if (!('updateViewport' in holomatrix.api.options) || holomatrix.api.options.updateViewport !== false) {
+            if (x || x === 0) {
+                switch (property) {
+                    case 'position':
+                    case 'scale':
+                        object[property].x = x;
+                        break;
+                    case 'rotation':
+                        object.rotation.x = holomatrix.utils.deg2rad(x);
+                        break;
+                }
             }
-        }
-        if (y || y === 0) {
-            switch (property) {
-                case 'position':
-                case 'scale':
-                    object[property].y = y;
-                    break;
-                case 'rotation':
-                    object.rotation.y = holomatrix.utils.deg2rad(y);
-                    break;
+            if (y || y === 0) {
+                switch (property) {
+                    case 'position':
+                    case 'scale':
+                        object[property].y = y;
+                        break;
+                    case 'rotation':
+                        object.rotation.y = holomatrix.utils.deg2rad(y);
+                        break;
+                }
             }
-        }
-        if (z || z === 0) {
-            switch (property) {
-                case 'position':
-                case 'scale':
-                    object[property].z = z;
-                    break;
-                case 'rotation':
-                    object.rotation.z = holomatrix.utils.deg2rad(z);
-                    break;
+            if (z || z === 0) {
+                switch (property) {
+                    case 'position':
+                    case 'scale':
+                        object[property].z = z;
+                        break;
+                    case 'rotation':
+                        object.rotation.z = holomatrix.utils.deg2rad(z);
+                        break;
+                }
             }
         }
         if (objectName == holomatrix.api.getSelected()) {
