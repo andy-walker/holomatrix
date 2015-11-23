@@ -17,6 +17,13 @@ var UtilsComponent = (function () {
             objectIndex++;
         return objectType + objectIndex;
     };
+    UtilsComponent.prototype.isRoughlyEqual = function (value1, value2, threshold) {
+        var diff = value1 - value2;
+        console.log('diff = ' + diff);
+        if (diff <= threshold && diff >= 0 - threshold)
+            return true;
+        return false;
+    };
     /**
      * Convert radians to degrees
      */
