@@ -113,6 +113,19 @@ var ViewportComponent = (function () {
                 _this.setManipulator();
             else
                 _this.removeManipulator();
+            if (mode == 'vertex') {
+                var editGeometry = getObject(getSelected()).geometry;
+                var geometry = new THREE.Geometry();
+                sprite = THREE.ImageUtils.loadTexture("/images/textures/disc.png");
+                for (i = 0; i < editGeometry.vertices.length; i++) {
+                    geometry.vertices.push(editGeometry.vertices[i]);
+                }
+                var material = new THREE.PointCloudMaterial({ size: 35, sizeAttenuation: false, map: sprite, transparent: true });
+                material.color.setHSL(1.0, 0.3, 0.7);
+                var particles = new THREE.PointCloud(geometry, material);
+                particles.sortParticles = true;
+                _this.scene.add(particles);
+            }
         };
         this.removeManipulator = function () {
             // rather than removing from the scene, attach to camera so you can't see it
